@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "version": "1.0",
+  "name": "Orangutan",
+  "description": "Replace mentions of Donald Trump with references to an orangutan",
+  "author": "cwmoo740",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "orangutan.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}
