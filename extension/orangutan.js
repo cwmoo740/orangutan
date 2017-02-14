@@ -1,22 +1,22 @@
 const regexes = [
-    {regex: /realdonaldtrump/ig, string: 'realOrangutan'},
-    {regex: /donaldjtrump/ig},
-    {regex: /trump\.com/ig, string: 'orangutan.com'},
-    {regex: /the(\W|_|\d)donald/ig, string: 'the$1orangutan'},
-    {regex: /\bpresident\strump\b/ig},
-    {regex: /\bpresident\sdonald\strump\b/ig},
-    {regex: /\bdonald\sjohn\strump\b/ig, string: 'Orangutan John Orangutan'},
-    {regex: /\bdonald\sj\.?\strump\b/ig, string: 'Orangutan J. Orangutan'},
-    {regex: /\bdonald(\s|_|-)trump\b/ig, string: 'the$1Orangutan'},
-    {regex: /\b(mr\.?|mister)\s(donald|trump|donald\btrump)/ig, string: '$1 Orangutan'},
-    {regex: /\bthe\s(donald|trump|donald\btrump)/ig},
-    {regex: /\btrump\b/ig},
-    {regex: /(?:^\s?|([.!?]\s))(?:the (orangutan))/ig, string: '$1The $2'},
-    {regex: /\b(a)n?(\s)(?:(?:the\s)?)(orangutan)/ig, string: '$1n$2$3'}
+    { regex: /realdonaldtrump/ig, string: 'realOrangutan' },
+    { regex: /donaldjtrump/ig },
+    { regex: /trump\.com/ig, string: 'orangutan.com' },
+    { regex: /the(\W|_|\d)donald/ig, string: 'the$1orangutan' },
+    { regex: /\bpresident\strump\b/ig },
+    { regex: /\bpresident\sdonald\strump\b/ig },
+    { regex: /\bdonald\sjohn\strump\b/ig, string: 'Orangutan John Orangutan' },
+    { regex: /\bdonald\sj\.?\strump\b/ig, string: 'Orangutan J. Orangutan' },
+    { regex: /\bdonald(\s|_|-)trump\b/ig, string: 'the$1Orangutan' },
+    { regex: /\b(mr\.?|mister)\s(donald|trump|donald\btrump)/ig, string: '$1 Orangutan' },
+    { regex: /\bthe\s(donald|trump|donald\btrump)/ig },
+    { regex: /\btrump\b/ig },
+    { regex: /(?:^\s?|([.!?]\s))(?:the (orangutan))/ig, string: '$1The $2' },
+    { regex: /\b(a)n?(\s)(?:(?:the\s)?)(orangutan)/ig, string: '$1n$2$3' }
 ];
 
 function trump(value) {
-    return regexes.reduce((res, {regex, string = 'the Orangutan'}) => res.replace(regex, string), value);
+    return regexes.reduce((res, { regex, string = 'the Orangutan' }) => res.replace(regex, string), value);
 }
 
 const editorNodes = ['INPUT', 'TEXTAREA'];
@@ -72,7 +72,7 @@ function flattenable(node) {
             child.childNodes.length === 1 &&
             child.childNodes.item(0).nodeName === '#text')
         ) &&
-        regexes.some(({regex}) => regex.test(node.textContent));
+        regexes.some(({ regex }) => regex.test(node.textContent));
 }
 
 function flatten(node) {
@@ -101,19 +101,40 @@ function walk(node) {
     }
 }
 
-walk(document.body);
+function run() {
+    walk(document.body);
 
-const observer = new MutationObserver(mutations => {
-    mutations.forEach(mut => {
-        if (mut.addedNodes.length || mut.type === 'characterData') {
-            walk(mut.target);
-        }
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mut => {
+            if (mut.addedNodes.length || mut.type === 'characterData') {
+                walk(mut.target);
+            }
+        });
     });
+
+    const config = {
+        attributes: false, subtree: true, childList: true, characterData: true
+    };
+
+    observer.observe(document.body, config);
+
+    return observer;
+}
+
+let observer = null;
+
+chrome.storage.local.get({ enabled: true }, obj => {
+    if (obj.enabled) {
+        observer = run();
+    }
 });
 
-const config = {
-    attributes: false, subtree: true, childList: true, characterData: true
-};
-
-observer.observe(document.body, config);
+chrome.storage.onChanged.addListener(change => {
+    if (change.hasOwnProperty('enabled') && change.enabled.newValue) {
+        observer = run();
+    } else if (observer && typeof observer.disconnect === 'function') {
+        observer.disconnect();
+        observer = null;
+    }
+});
 

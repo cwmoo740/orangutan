@@ -1,3 +1,5 @@
+let clicked = false;
+
 function onOkOver() {
     const intro = document.getElementById('intro');
     intro.style.color = 'black';
@@ -10,4 +12,10 @@ function onOkOut() {
     intro.classList.remove('flag');
 }
 
-console.log('what');
+function onOkClick() {
+    clicked = true;
+    document.getElementById('intro').classList.add('hide');
+    document.getElementById('demo').classList.remove('hide');
+}
+
+
