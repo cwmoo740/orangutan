@@ -24,9 +24,11 @@
         Resist
     </div>
     <div
-            onclick="onOkClick()"
             onmouseover="onOkOver()"
+            touchstart="onOkOver()"
             onmouseout="onOkOut()"
+            touchend="onOkOut()"
+            touchcancel="onOkOut()"
             class="text-large"
             style="cursor: pointer; ">
         OK

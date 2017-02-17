@@ -25,7 +25,7 @@ function onOkOut() {
     const hoverItems = document.getElementsByClassName('hover-text');
     Array.from(hoverItems).forEach(item => item.classList.add('hide'));
 
-    state.hover = true;
+    state.hover = false;
     if (state.player && typeof state.player.pauseVideo === 'function') {
         state.player.pauseVideo();
     }
