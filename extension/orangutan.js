@@ -61,7 +61,7 @@ function flattenableFilter(node) {
     }
 }
 
-const textHolders = ['SPAN', 'P', 'H1', 'H2', 'H3', 'H4'];
+const textHolders = ['SPAN', 'P', 'H1', 'H2', 'H3', 'H4', 'CITE'];
 function flattenable(node) {
     return textHolders.includes(node.nodeName) &&
         node.hasChildNodes() &&

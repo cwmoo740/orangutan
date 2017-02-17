@@ -68,3 +68,8 @@ body {
     );
 
 }
+
+#video {
+    position: fixed;
+    left: 110vw;
+}
