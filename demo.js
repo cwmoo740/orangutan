@@ -7,6 +7,10 @@ function onOkOver() {
     const intro = document.getElementById('intro');
     intro.style.color = 'black';
     intro.classList.add('flag');
+
+    const hoverItems = document.getElementsByClassName('hover-text');
+    Array.from(hoverItems).forEach(item => item.classList.remove('hide'));
+
     state.hover = true;
     if (state.player && typeof state.player.playVideo === 'function') {
         state.player.playVideo();
@@ -17,6 +21,10 @@ function onOkOut() {
     const intro = document.getElementById('intro');
     intro.style.color = '';
     intro.classList.remove('flag');
+
+    const hoverItems = document.getElementsByClassName('hover-text');
+    Array.from(hoverItems).forEach(item => item.classList.add('hide'));
+
     state.hover = true;
     if (state.player && typeof state.player.pauseVideo === 'function') {
         state.player.pauseVideo();
@@ -38,7 +46,7 @@ function onYouTubeIframeAPIReady() {
             loop: 1,
             playlist: video,
             rel: 0,
-            origin: 'http://localhost'
+            origin: 'https://cwmoo740.github.io'
         },
         events: {
             onReady(event) {
