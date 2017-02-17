@@ -74,8 +74,3 @@ body {
             rgba(207, 15, 15, 1) 100%
     );
 }
-
-#video {
-    position: fixed;
-    left: 110vw;
-}
