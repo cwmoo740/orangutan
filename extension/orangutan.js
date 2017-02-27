@@ -8,8 +8,8 @@ const regexes = [
     { regex: /\bdonald\sjohn\strump\b/ig, string: 'Orangutan John Orangutan' },
     { regex: /\bdonald\sj\.?\strump\b/ig, string: 'Orangutan J. Orangutan' },
     { regex: /\bdonald(\s|_|-)trump\b/ig, string: 'the$1Orangutan' },
-    { regex: /\b(mr\.?|mister)\s(donald|trump|donald\btrump)/ig, string: '$1 Orangutan' },
-    { regex: /\bthe\s(donald|trump|donald\btrump)/ig },
+    { regex: /\b(mr\.?|mister)\s(donald|trump|donald\strump)\b/ig, string: '$1 Orangutan' },
+    { regex: /\bthe\s(donald|trump|donald\strump)\b/ig },
     { regex: /\btrump\b/ig },
     { regex: /(?:^\s?|([.!?]\s))(?:the (orangutan))/ig, string: '$1The $2' },
     { regex: /\b(a)n?(\s)(?:(?:the\s)?)(orangutan)/ig, string: '$1n$2$3' }
